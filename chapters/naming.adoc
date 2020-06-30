@@ -37,7 +37,7 @@ functional component itself:
 <functional-component>  ::= [a-z][a-z0-9-]* -- name of owning functional component
 ----
 
-*Internal Hint*:  Use the simple 
+*Internal Hint*:  Use the simple
 https://github.bus.zalan.do/team-architecture/functional-component-registry[functional
 name registry (internal link)] to register your functional name before using
 it. The registry is a centralized infrastructure service to ensure uniqueness
@@ -92,13 +92,13 @@ parameter.
 
 
 [#130]
-== {MUST} use snake_case (never camelCase) for query parameters
+== {MUST} use camelCase (never snake_case) for query parameters
 
 Examples:
 
 [source]
 ----
-customer_number, order_id, billing_address
+customerNumber, orderId, billingAddress
 ----
 
 
@@ -141,7 +141,7 @@ public API, and therefore should be made available under the root "/"
 base path.
 
 If the service should also support non-public, internal APIs
-— for specific operational support functions, for example — we encourage 
+— for specific operational support functions, for example — we encourage
 you to maintain two different API specifications and provide
 <<219, API audience>>. For both APIs, you should not use `/api` as base path.
 
