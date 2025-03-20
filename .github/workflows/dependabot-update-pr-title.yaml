@@ -1,0 +1,37 @@
+name: Dependabot - Update PR title
+on: 
+  pull_request:
+    branches:
+      - master
+    types: [labeled]
+
+permissions:
+  contents: write
+  pull-requests: write
+  security-events: write
+  issues: write
+  repository-projects: write
+
+jobs:
+  update-pr-title:
+    runs-on: ubuntu-latest
+
+    # Only run this job if the PR was created by dependabot, and if this was a dependency update (label='dependencies')
+    if: github.actor == 'dependabot[bot]' && github.event.label.name == 'dependencies' 
+
+    steps:
+      - name: Checkout pliant github-actions
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PAT_GITHUB }}
+          repository: infinnity-card/pliant-github-actions
+          ref: v1.0.139
+          path: ./.github/pliant-github-actions
+
+      - name: Dependabot - Update PR title
+        uses: ./.github/pliant-github-actions/dist/dependabot-update-pr/
+        with:
+          PAT_GITHUB: ${{ secrets.PAT_GITHUB }}
+          REPO_OWNER: ${{ github.repository_owner }}
+          REPO_NAME: ${{ github.event.repository.name }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
