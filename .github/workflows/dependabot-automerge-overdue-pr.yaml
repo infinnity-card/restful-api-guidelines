@@ -1,0 +1,34 @@
+name: Dependabot - Automerge overdue PR
+on: 
+  workflow_dispatch:
+  schedule:
+    - cron: '0 7 * * *' # Run every day at 7am UTC
+
+permissions:
+  contents: write
+  pull-requests: write
+  security-events: write
+  issues: write
+  repository-projects: write
+
+jobs:
+  automerge-overdue-pr:
+    runs-on: ubuntu-latest
+
+    steps:
+      
+      - name: Checkout pliant github-actions
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PAT_GITHUB }}
+          repository: infinnity-card/pliant-github-actions
+          ref: v1.0.139
+          path: ./.github/pliant-github-actions
+
+      - name: Dependabot - Automerge overdue PR
+        uses: ./.github/pliant-github-actions/dist/dependabot-automerge-overdue-pr/
+        with:
+          PAT_GITHUB: ${{ secrets.PAT_GITHUB }}
+          REPO_OWNER: ${{ github.repository_owner }}
+          REPO_NAME: ${{ github.event.repository.name }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
